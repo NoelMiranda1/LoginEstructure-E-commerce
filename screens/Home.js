@@ -1,80 +1,62 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  FlatList,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import {View, Text, FlatList, StyleSheet} from 'react-native';
 import CustomHeader from '../src/navigation/CustomHeader';
-import {useNavigation} from '@react-navigation/native';
+import {ListProducts} from '../src/components/ListProducts';
 const Home = () => {
-  const navigation = useNavigation();
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   useEffect(() => {
     fetch('http://192.168.0.2:8080/api/products/1')
       .then((res) => res.json())
       .then((product) => {
         setProducts(product);
         console.log('Productos', product);
+      })
+      .catch((error) => {
+        console.error(error);
       });
   }, []);
-
-  const renderItem = ({item}) => {
-    const {productId, categoryId, name, description, price, imageUrl} = item;
-    return (
-      <View style={{maxHeight: 400}}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('product', {
-              productId,
-              categoryId,
-              name,
-              description,
-              price,
-              imageUrl,
-            });
-          }}
-          style={styles.btn}>
-          <Image style={styles.img} source={{uri: imageUrl}} />
-          <View style={styles.contenido}>
-            <Text style={styles.text}>
-              Producto:{' '}
-              <Text
-                numberOfLines={2}
-                style={{
-                  color: 'orangered',
-                }}>
-                {name}
-              </Text>
-            </Text>
-            <Text>
-              Precio:{' '}
-              <Text
-                style={{
-                  color: 'red',
-                  borderStyle: 'solid',
-                }}>
-                {item.price}
-              </Text>
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
+  useEffect(() => {
+    fetch('http://192.168.0.2:8080/api/categories')
+      .then((res) => res.json())
+      .then((category) => {
+        setCategories(category);
+        console.log('Categorias', category);
+      })
+      .catch((erro) => {
+        console.error(erro);
+      });
+  }, []);
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <CustomHeader t="In" i="Shop" />
       <Text style={styles.section}>Camisas</Text>
-      <FlatList
-        data={products.products}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.productId}
-        horizontal={true}
-      />
+      <View>
+        <FlatList
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          data={products.products}
+          renderItem={({item}) => {
+            return (
+              <ListProducts item={item} price="Precio" producto="Producto" />
+            );
+          }}
+          keyExtractor={(item) => item.productId.toString()}
+          horizontal={true}
+        />
+      </View>
+      <View>
+        <FlatList
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          data={categories}
+          renderItem={({item}) => {
+            return <ListProducts item={item} />;
+          }}
+          keyExtractor={(item) => item.categoryId.toString()}
+          horizontal={true}
+        />
+      </View>
     </View>
   );
 };
@@ -99,7 +81,7 @@ const styles = StyleSheet.create({
   contenido: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'red',
+    backgroundColor: '#fff',
   },
   text: {
     fontWeight: 'bold',

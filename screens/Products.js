@@ -11,25 +11,47 @@ const Products = ({route}) => {
     imageUrl,
   } = route.params;
   return (
-    <View style={{flex: 1, justifyContent: 'center'}}>
-      <CustomHeader title="Poducto" />
-      <Image style={styles.img} source={{uri: imageUrl}} />
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
+      <CustomHeader t="Poducto" />
+      <View style={styles.images}>
+        <Image style={styles.img} source={{uri: imageUrl}} />
+      </View>
       <Text style={styles.name}>{name}</Text>
-      <Text>{description}</Text>
-      <Text>{price}</Text>
+      <Text style={styles.description}>{description}</Text>
+      <Text style={styles.price}>
+        Precio: <Text style={styles.color}> {price}</Text>
+      </Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   img: {
-    height: 200,
-    width: '100%',
+    height: 500,
+    width: 400,
   },
   name: {
     fontSize: 20,
     padding: 10,
     color: 'orangered',
+    fontWeight: 'bold',
+  },
+  images: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  description: {
+    padding: 10,
+  },
+  price: {
+    textAlign: 'center',
+    fontSize: 20,
+    color: '#000',
+    marginVertical: 20,
+  },
+  color: {
+    fontWeight: 'bold',
+    color: 'red',
   },
 });
 

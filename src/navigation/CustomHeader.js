@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import Icons from 'react-native-vector-icons/AntDesign';
+import Iconss from 'react-native-vector-icons/AntDesign';
 const Custom = (props) => {
   const navigation = useNavigation();
 
@@ -16,11 +16,14 @@ const Custom = (props) => {
         <Text style={styles.t}>{props.t}</Text>
         <Text style={styles.i}>{props.i}</Text>
       </View>
-
       <TouchableOpacity
         onPress={() => navigation.toggleDrawer()}
         style={styles.btn}>
-        <Icons name="menu-fold" size={20} color="#fff" />
+        {/* <Iconss name="menuunfold" size={20} color="#000" /> */}
+        <Image
+          style={{width: 30, height: 30, marginRight: 10}}
+          source={require('../assets/images/icons8-menu-rounded-100.png')}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -32,7 +35,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
   },
   contenido: {
     flexDirection: 'row',
@@ -56,6 +59,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     alignItems: 'center',
+    resizeMode: 'cover',
   },
 });
 
