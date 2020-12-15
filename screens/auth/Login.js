@@ -53,7 +53,7 @@ const LoginScreen = ({navigation}) => {
         if (responseJson.statusCode === 200) {
           AsyncStorage.setItem('token', responseJson.data.token)
             .then(() => {
-              navigation.replace('drawer');
+              navigation.replace('app');
             })
             .catch((e) => {
               console.log('error del guardado del asyn', e);
@@ -72,11 +72,6 @@ const LoginScreen = ({navigation}) => {
 
   return (
     <View style={styles.mainBody}>
-      {loading && (
-        <View style={{flex: 1}}>
-          <ActivityIndicator size="large" color="blue" />
-        </View>
-      )}
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={styles.scroll}>
@@ -122,12 +117,16 @@ const LoginScreen = ({navigation}) => {
             {errortext != '' ? (
               <Text style={styles.errorTextStyle}>{errortext}</Text>
             ) : null}
-            <TouchableOpacity
-              style={styles.buttonStyle}
-              activeOpacity={0.5}
-              onPress={handleSubmitPress}>
-              <Text style={styles.buttonTextStyle}>LOGIN</Text>
-            </TouchableOpacity>
+            {loading ? (
+              <ActivityIndicator size={30} color="orangered" />
+            ) : (
+              <TouchableOpacity
+                style={styles.buttonStyle}
+                activeOpacity={0.5}
+                onPress={handleSubmitPress}>
+                <Text style={styles.buttonTextStyle}>LOGIN</Text>
+              </TouchableOpacity>
+            )}
             <Text
               style={styles.registerTextStyle}
               onPress={() => navigation.navigate('registro')}>

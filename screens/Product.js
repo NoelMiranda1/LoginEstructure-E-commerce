@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import CustomHeader from '../src/navigation/CustomHeader';
-const Products = ({route}) => {
+const Product = ({route}) => {
   const {
     productId,
     categoryId,
@@ -27,7 +27,7 @@ const Products = ({route}) => {
 
 const styles = StyleSheet.create({
   img: {
-    height: 500,
+    height: 540,
     width: 400,
   },
   name: {
@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
   images: {
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 10,
   },
   description: {
     padding: 10,
@@ -55,4 +56,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Products;
+export default Product;

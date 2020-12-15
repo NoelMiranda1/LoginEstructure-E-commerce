@@ -1,10 +1,23 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, FlatList, StyleSheet} from 'react-native';
-import CustomHeader from '../src/navigation/CustomHeader';
 import {ListProducts} from '../src/components/ListProducts';
+import {ListCategorys} from '../src/components/ListCategorys';
+import {
+  Placeholder,
+  PlaceholderLine,
+  Shine,
+  PlaceholderMedia,
+} from 'rn-placeholder';
+import {useNavigation} from '@react-navigation/native';
+
 const Home = () => {
+  const navigation = useNavigation();
+
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadingCat, setloadingCat] = useState(true);
+  ////////////////////
   useEffect(() => {
     fetch('http://192.168.0.2:8080/api/products/1')
       .then((res) => res.json())
@@ -14,22 +27,20 @@ const Home = () => {
       })
       .catch((error) => {
         console.error(error);
-      });
-  }, []);
-  useEffect(() => {
-    fetch('http://192.168.0.2:8080/api/categories')
-      .then((res) => res.json())
-      .then((category) => {
-        setCategories(category);
-        console.log('Categorias', category);
       })
-      .catch((erro) => {
-        console.error(erro);
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
+
+  ////////////////////////
+
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
-      <CustomHeader t="In" i="Shop" />
+      <Text style={styles.section}>Categorias</Text>
+      <View>
+        <ListCategorys />
+      </View>
       <Text style={styles.section}>Camisas</Text>
       <View>
         <FlatList
@@ -37,23 +48,9 @@ const Home = () => {
           showsVerticalScrollIndicator={false}
           data={products.products}
           renderItem={({item}) => {
-            return (
-              <ListProducts item={item} price="Precio" producto="Producto" />
-            );
-          }}
-          keyExtractor={(item) => item.productId.toString()}
-          horizontal={true}
-        />
-      </View>
-      <View>
-        <FlatList
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          data={categories}
-          renderItem={({item}) => {
             return <ListProducts item={item} />;
           }}
-          keyExtractor={(item) => item.categoryId.toString()}
+          keyExtractor={(item) => item.productId.toString()}
           horizontal={true}
         />
       </View>

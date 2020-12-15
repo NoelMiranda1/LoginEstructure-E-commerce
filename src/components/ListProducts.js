@@ -2,8 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-export const ListProducts = ({item}, props) => {
-  console.log('Las props', props);
+export const ListProducts = ({item}) => {
   const {productId, categoryId, name, description, price, imageUrl} = item;
   const navigation = useNavigation();
   console.log('EL ITEM ->', item);
@@ -24,7 +23,7 @@ export const ListProducts = ({item}, props) => {
         <Image style={styles.img} source={{uri: imageUrl}} />
         <View style={styles.contenido}>
           <Text style={styles.text} numberOfLines={2}>
-            {props.producto}
+            Producto:{' '}
             <Text
               numberOfLines={2}
               style={{
@@ -34,7 +33,7 @@ export const ListProducts = ({item}, props) => {
             </Text>
           </Text>
           <Text>
-            {props.price}
+            Precio :{' '}
             <Text
               style={{
                 color: 'red',

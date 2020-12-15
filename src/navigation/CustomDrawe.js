@@ -69,7 +69,7 @@ const CustomDrawer = ({props, progress, ...rest}) => {
                     text: 'Confirm',
                     onPress: () => {
                       AsyncStorage.clear();
-                      navigation.replace('login');
+                      navigation.replace('auth');
                     },
                   },
                 ],

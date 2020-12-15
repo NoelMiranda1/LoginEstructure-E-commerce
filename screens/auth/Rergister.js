@@ -16,8 +16,8 @@ const Rergister = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errortext, setErrortext] = useState('');
-  const [resgistroCompleto, setResgistroCompleto] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [resgistroCompleto, setResgistroCompleto] = useState(false);
+  const [completed, setCompleted] = useState(false);
   const passwordInputRef = createRef();
 
   const handleSubmitPress = () => {
@@ -30,7 +30,8 @@ const Rergister = ({navigation}) => {
       alert('Escriba su contraseña por favor');
       return;
     }
-    setLoading(true);
+    setResgistroCompleto(true);
+
     fetch('http://192.168.0.2:8080/api/register', {
       method: 'POST',
       body: JSON.stringify({
@@ -43,29 +44,29 @@ const Rergister = ({navigation}) => {
     })
       .then((res) => res.json())
       .then((resultado) => {
-        setLoading(false);
         console.log('respuesta del json', resultado);
         if (resultado.statusCode === 402) {
           setErrortext('El correo ya existe chele :(');
         } else if (resultado.statusCode === 201) {
-          setResgistroCompleto(true);
+          setCompleted(true);
+          setResgistroCompleto(false);
           console.log('Registro completp papu');
         } else {
           setErrortext('No se pudo relizar el registro :(');
         }
       })
       .catch((error) => {
-        setLoading(false);
         console.log(error);
       });
   };
-  if (resgistroCompleto) {
+  if (completed) {
     return (
       <View
         style={{
           flex: 1,
           backgroundColor: '#fff',
           justifyContent: 'center',
+          alignItems: 'center',
         }}>
         <Image
           source={require('../../src/assets/images/succes.jpg')}
@@ -91,11 +92,11 @@ const Rergister = ({navigation}) => {
   return (
     <>
       <View style={styles.mainBody}>
-        {loading && (
+        {/* {loading && (
           <View style={{flex: 1}}>
             <ActivityIndicator size="large" color="blue" />
           </View>
-        )}
+        )} */}
         <ScrollView
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={{
@@ -150,12 +151,17 @@ const Rergister = ({navigation}) => {
               {errortext != '' ? (
                 <Text style={styles.errorTextStyle}>{errortext}</Text>
               ) : null}
-              <TouchableOpacity
-                style={styles.buttonStyle}
-                activeOpacity={0.5}
-                onPress={handleSubmitPress}>
-                <Text style={styles.buttonTextStyle}>Registrarme ya!</Text>
-              </TouchableOpacity>
+              {resgistroCompleto ? (
+                <ActivityIndicator size={25} color="red" />
+              ) : (
+                <TouchableOpacity
+                  style={styles.buttonStyle}
+                  activeOpacity={0.5}
+                  onPress={handleSubmitPress}>
+                  <Text style={styles.buttonTextStyle}>Registrarme ya!</Text>
+                </TouchableOpacity>
+              )}
+
               <Text
                 style={styles.registerTextStyle}
                 onPress={() => navigation.navigate('login')}>
@@ -208,17 +214,16 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     color: '#FFFFFF',
     borderColor: '#7DE24E',
-    height: 40,
     alignItems: 'center',
     borderRadius: 30,
     marginLeft: 35,
     marginRight: 35,
     marginTop: 20,
     marginBottom: 25,
+    padding: 15,
   },
   buttonTextStyle: {
     color: '#FFFFFF',
-    paddingVertical: 10,
     fontSize: 16,
   },
   successTextStyle: {

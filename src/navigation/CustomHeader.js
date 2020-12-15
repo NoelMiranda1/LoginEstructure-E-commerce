@@ -6,13 +6,22 @@ const Custom = (props) => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.contenedor}>
-      <View style={styles.contenido}>
-        {/* <Image
+    // <View style={styles.contenedor}>
+    <View style={styles.contenido}>
+      <TouchableOpacity onPress={navigation.goBack}>
+        <Iconss name="arrowleft" size={30} />
+      </TouchableOpacity>
+      {/* <Image
           style={{width: 50, height: 20, marginRight: 10}}
           source={require('../assets/images/logo-wallet.png')}
         /> */}
-        <Text style={styles.title}>{props.title}</Text>
+      <Text style={styles.title}>{props.title}</Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginRight: '20%',
+        }}>
         <Text style={styles.t}>{props.t}</Text>
         <Text style={styles.i}>{props.i}</Text>
       </View>
@@ -26,20 +35,19 @@ const Custom = (props) => {
         />
       </TouchableOpacity>
     </View>
+    // </View>
   );
 };
 
 const styles = StyleSheet.create({
-  contenedor: {
-    height: 60,
+  contenido: {
+    height: 50,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 10,
-  },
-  contenido: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    padding: 5,
+    borderBottomColor: '#b0aea9',
+    borderWidth: 0.3,
   },
   title: {
     color: '#000',
@@ -53,11 +61,11 @@ const styles = StyleSheet.create({
   },
   i: {
     color: 'black',
-    marginRight: '47%',
     fontFamily: 'bold',
     fontSize: 20,
   },
   btn: {
+    justifyContent: 'flex-end',
     alignItems: 'center',
     resizeMode: 'cover',
   },
